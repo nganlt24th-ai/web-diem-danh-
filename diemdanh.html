@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>AGC Checkin</title>
+</head>
+
+<body>
+
+<h2>AGC Coin Check-in</h2>
+
+<button onclick="connectWallet()">Connect Wallet</button>
+
+<p id="wallet"></p>
+
+<button onclick="checkin()">Điểm danh hôm nay</button>
+
+<p id="status"></p>
+
+<script>
+
+let userAddress;
+
+async function connectWallet(){
+
+if(window.ethereum){
+
+await ethereum.request({method:'eth_requestAccounts'});
+
+const accounts = await ethereum.request({method:'eth_accounts'});
+
+userAddress = accounts[0];
+
+document.getElementById("wallet").innerText =
+"Ví của bạn: " + userAddress;
+
+}
+
+else{
+
+alert("Bạn chưa cài MetaMask");
+
+}
+
+}
+
+function checkin(){
+
+let today = new Date().toDateString();
+
+let last = localStorage.getItem("checkin");
+
+if(last == today){
+
+document.getElementById("status").innerText =
+"Bạn đã điểm danh hôm nay rồi";
+
+return;
+
+}
+
+localStorage.setItem("checkin",today);
+
+document.getElementById("status").innerText =
+"Điểm danh thành công";
+
+}
+
+</script>
+
+</body>
+
+</html>
